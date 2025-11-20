@@ -13,12 +13,20 @@ export async function generateStaticParams() {
     .map((slug) => ({ page: slug }))
 }
 
-export default async function CMSPage({ params }: { params: { page: string } }) {
-  const data = await sanityClient.fetch(pageBySlugQuery, { slug: params.page })
+type CMSPageParams = { page: string }
+
+export default async function CMSPage({
+  params,
+}: {
+  params: Promise<CMSPageParams>
+}) {
+  const { page } = await params
+
+  const data = await sanityClient.fetch(pageBySlugQuery, { slug: page })
   if (!data) return notFound()
 
   return (
-    <section className="mx-auto max-w-3xl px-4 py-12 prose prose-neutral dark:prose-invert">
+    <section className="prose prose-neutral mx-auto max-w-3xl px-4 py-12 dark:prose-invert">
       <h1 className="text-4xl font-bold">{data.title}</h1>
       <div className="mt-6">
         <PortableText value={data.content} />

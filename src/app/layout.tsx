@@ -3,7 +3,7 @@ import './globals.css'
 import JsonLd from '@/components/JsonLd'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import Hero from '@/components/Hero'
+
 
 // update metadata
 export const metadata: Metadata = {
