@@ -7,12 +7,12 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden">
       {/* Background ornaments */}
-      <div className="pointer-events-none absolute inset-0">
+      {/* <div className="pointer-events-none absolute inset-0">
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 size-[800px] rounded-full opacity-40 blur-3xl"
              style={{ background: 'radial-gradient(closest-side, rgba(226,180,1,.25), transparent)' }} />
         <div className="absolute inset-0 opacity-[0.06]"
              style={{ backgroundImage: 'linear-gradient(0deg, rgba(0,0,0,.8) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.8) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-      </div>
+      </div> */}
 
       <div className="container section grid md:grid-cols-2 items-center gap-10">
         <div>
