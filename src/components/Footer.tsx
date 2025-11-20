@@ -1,44 +1,96 @@
+import Link from 'next/link'
+import Image from 'next/image'
+
 export default function Footer() {
-    return (
-      <footer className="mt-16 border-t border-gray/10 bg-[--color-background]">
-        <div className="container py-10 grid gap-10 md:grid-cols-4">
-          <div className="md:col-span-2">
-            <div className="inline-flex items-center gap-2 font-bold text-lg">
-              <span className="size-2 rounded-full bg-mustard" />
-              Pristeneo
+  const navLinks = [
+    { href: '/products', label: 'Products' },
+    { href: '/process', label: 'Process' },
+    { href: '/benefits', label: 'Benefits' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' },
+  ]
+
+  return (
+    <footer className="mt-16 border-t border-black/5 bg-[var(--color-bone)]/80">
+      <div className="container mx-auto grid gap-8 px-4 py-10 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
+        {/* Brand + blurb */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <div className="relative h-8 w-8 overflow-hidden rounded-lg shadow-sm">
+              <Image
+                src="/logo.png"
+                alt="Pristeneo"
+                fill
+                className="object-cover"
+              />
             </div>
-            <p className="mt-3 max-w-md opacity-80">
-              Pure, cold-pressed mustard oil. From seed to seal—traceable, tested, and delicious.
-            </p>
+            <span className="text-base font-semibold tracking-tight">
+              Pristeneo
+            </span>
           </div>
-  
-          <nav>
-            <h4 className="font-semibold">Explore</h4>
-            <ul className="mt-3 space-y-2 opacity-90">
-              <li><a href="/products" className="hover:text-mustard">Products</a></li>
-              <li><a href="/process" className="hover:text-mustard">Process</a></li>
-              <li><a href="/benefits" className="hover:text-mustard">Benefits</a></li>
-              <li><a href="/about" className="hover:text-mustard">About</a></li>
-              <li><a href="/contact" className="hover:text-mustard">Contact</a></li>
-            </ul>
-          </nav>
-  
+          <p className="max-w-md text-xs text-[var(--color-ink)]/70 md:text-sm">
+            Cold-pressed, lab-tested mustard oil crafted from traceable seeds
+            for real kitchens, every day.
+          </p>
+        </div>
+
+        {/* Links + contact */}
+        <div className="grid gap-6 text-sm md:grid-cols-2">
           <div>
-            <h4 className="font-semibold">Contact</h4>
-            <ul className="mt-3 space-y-2 opacity-90">
-              <li>Email: <a href="mailto:pristeneo@gmail.com" className="hover:text-mustard">pristeneo@gmail.com</a></li>
-              <li>Phone: <a href="tel:+9779824507783" className="hover:text-mustard">+977 9824507783</a></li>
-              <li>Wholesale: <a href="/contact" className="hover:text-mustard">Become a distributor</a></li>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink)]/70">
+              Explore
+            </h3>
+            <ul className="mt-3 space-y-2">
+              {navLinks.map(link => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-xs text-[var(--color-ink)]/80 hover:text-[var(--color-leaf)] md:text-sm"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
-        </div>
-  
-        <div className="border-t border-black/10">
-          <div className="container py-4 text-sm opacity-70">
-            © {new Date().getFullYear()} Pristeneo. All rights reserved.
+
+          <div>
+            <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-ink)]/70">
+              Contact
+            </h3>
+            <ul className="mt-3 space-y-2 text-xs md:text-sm">
+              {/* mailto + external are fine as <a>, rule only cares about /internal paths */}
+              <li>
+                <a
+                  href="mailto:pristeneo@gmail.com"
+                  className="text-[var(--color-ink)]/80 hover:text-[var(--color-leaf)]"
+                >
+                  pristeneo@gmail.com
+                </a>
+              </li>
+              <li className="text-[var(--color-ink)]/70">
+                Kathmandu, Nepal
+              </li>
+            </ul>
+
+            <div className="mt-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-full bg-[var(--color-leaf)] px-4 py-2 text-xs font-semibold text-white hover:bg-[var(--color-mustard-dark)] md:text-sm"
+              >
+                Contact Us
+              </Link>
+            </div>
           </div>
         </div>
-      </footer>
-    )
-  }
-  
+      </div>
+
+      <div className="border-t border-black/5 bg-[var(--color-bone)]/90">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-3 px-4 py-4 text-[10px] text-[var(--color-ink)]/60 md:flex-row md:text-xs">
+          <p>© {new Date().getFullYear()} Pristeneo. All rights reserved.</p>
+          <p>Crafted with care for mustard oil lovers.</p>
+        </div>
+      </div>
+    </footer>
+  )
+}
