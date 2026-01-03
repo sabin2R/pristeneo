@@ -50,7 +50,7 @@ export default function Hero() {
         >
           {/* <div className="card p-4"> */}
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-lg)]">
-              <Image src="/Hero.png" alt="Pristeneo Mustard Oil Bottle" fill className="object-contain" />
+              <Image src="/Hero.PNG" alt="Pristeneo Mustard Oil Bottle" fill className="object-contain" />
             </div>
             <div className="-mt-6 grid grid-cols-3 gap-3 text-sm">
               {['250 ml','500 ml','1 L'].map(s => (

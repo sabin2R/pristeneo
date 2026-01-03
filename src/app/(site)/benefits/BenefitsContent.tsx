@@ -54,7 +54,7 @@ export default function BenefitsContent() {
           transition={{ duration: 0.4, delay: 0.15 }}
         >
           <Image
-            src="/features/ctaBenefit.png"
+            src="/features/ctaBenefit.PNG"
             alt="Pristeneo mustard oil bottle"
             fill
             className="object-cover"

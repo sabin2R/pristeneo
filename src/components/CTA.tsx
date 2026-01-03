@@ -9,7 +9,7 @@ export default function CTA() {
         <div className="group relative overflow-hidden rounded-[var(--radius-lg)] shadow-[var(--shadow-soft)]">
           {/* background image */}
           <Image
-            src="/cta2.png"   // put your image in /public
+            src="/cta2.PNG"   // put your image in /public
             alt=""
             fill
             className="object-cover object-center"
