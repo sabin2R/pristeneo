@@ -1,16 +1,21 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { groq } from 'next-sanity'
 import { sanityClient } from '@/lib/sanity.client'
-import { singleProductQuery, productSlugsQuery } from '@/lib/queries'
+import {
+  singleProductQuery,
+  productSlugsQuery,
+} from '@/lib/queries'
 import { urlFor } from '@/lib/sanity.image'
 import type { Product } from '@/types/product'
 import JsonLd from '@/components/JsonLd'
-import ProductClient from '../../../components/ProductClient' // Adjusted the relative path
+import ProductClient from '../../../components/ProductClient'
 
 export const revalidate = 60
 
-type PageProps = { 
-  params: Promise<{ slug: string }> // Updated for Next 15
+// Keeping your Promise params workaround for now
+type PageProps = {
+  params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
@@ -19,10 +24,12 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params }: PageProps
+  { params }: PageProps,
 ): Promise<Metadata> {
   const { slug } = await params
-  const data: Product | null = await sanityClient.fetch(singleProductQuery, { slug })
+  const data: Product | null = await sanityClient.fetch(singleProductQuery, {
+    slug,
+  })
   const site = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
   const canonical = `${site}/products/${slug}`
 
@@ -33,7 +40,9 @@ export async function generateMetadata(
     }
   }
 
-  const description = data.description || `${data.title} by Pristeneo — pure, cold-pressed oil.`
+  const description =
+    data.description ||
+    `${data.title} by Pristeneo — pure, cold-pressed oil.`
   const ogImage = data.image
     ? urlFor(data.image).width(1200).height(630).url()
     : undefined
@@ -46,7 +55,16 @@ export async function generateMetadata(
       url: canonical,
       title: data.title,
       description,
-      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: data.title }] : undefined,
+      images: ogImage
+        ? [
+            {
+              url: ogImage,
+              width: 1200,
+              height: 630,
+              alt: data.title,
+            },
+          ]
+        : undefined,
     },
     twitter: {
       card: 'summary_large_image',
@@ -59,13 +77,35 @@ export async function generateMetadata(
 
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params
-  const data: Product | null = await sanityClient.fetch(singleProductQuery, { slug })
-  
+
+  // Main product
+  const data: Product | null = await sanityClient.fetch(singleProductQuery, {
+    slug,
+  })
   if (!data) return notFound()
 
-  // JSON-LD Logic
+  // Similar products: other products, excluding current slug, limit 3
+  const similarProducts: Product[] = await sanityClient.fetch(
+    groq`*[_type == "product" && slug.current != $slug] | order(title asc)[0..2]{
+      _id,
+      title,
+      "slug": slug.current,
+      size,
+      description,
+      benefits,
+      image,
+      price,
+      salePrice
+    }`,
+    { slug },
+  )
+
+  // JSON-LD
   const site = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-  const ogImage = data.image ? urlFor(data.image).width(1200).height(630).url() : undefined
+  const ogImage = data.image
+    ? urlFor(data.image).width(1200).height(630).url()
+    : undefined
+
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -80,8 +120,7 @@ export default async function ProductPage({ params }: PageProps) {
   return (
     <>
       <JsonLd data={productJsonLd} />
-      {/* Pass data to the Client Component for the rich UI */}
-      <ProductClient product={data} />
+      <ProductClient product={data} similarProducts={similarProducts} />
     </>
   )
 }

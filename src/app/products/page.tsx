@@ -1,25 +1,20 @@
-// src/app/products/page.tsx
+// src/app/(site)/products/page.tsx
+import type { Metadata } from 'next'
 import { sanityClient } from '@/lib/sanity.client'
 import { productsQuery } from '@/lib/queries'
-import ProductCard from '@/components/ProductCard'
 import type { Product } from '@/types/product'
+import ProductsGridClient from '@/components/ProductsGridClient'
 
 export const revalidate = 60
 
-export default async function ProductsPage() {
-  // 👇 explicitly type the fetch result
-  const products: Product[] = await sanityClient.fetch(productsQuery)
+export const metadata: Metadata = {
+  title: 'Pristeneo Mustard Oil Products',
+  description:
+    'Explore Pristeneo cold-pressed mustard oil sizes for home kitchens, restaurants, and wholesale.',
+}
 
-  return (
-    <section className="section">
-      <div className="container">
-        <h1 className="text-4xl font-bold">Products</h1>
-        <div className="mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {products.map((p) => (
-            <ProductCard key={p._id} p={p} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+export default async function ProductsPage() {
+  const products = await sanityClient.fetch<Product[]>(productsQuery)
+
+  return <ProductsGridClient products={products} />
 }

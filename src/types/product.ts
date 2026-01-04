@@ -8,4 +8,7 @@ export interface Product {
   description?: string
   benefits?: string[]
   image?: SanityImageSource
+  price?: number
+  salePrice?: number
+  inStock?: boolean
 }
