@@ -52,7 +52,7 @@ export default function Hero() {
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-lg)]">
               <Image src="/Hero.PNG" alt="Pristeneo Mustard Oil Bottle" fill className="object-contain" />
             </div>
-            <div className="-mt-6 grid grid-cols-3 gap-3 text-sm">
+            <div className="-mt-6 grid grid-cols-2 gap-3 text-sm">
               {[' 1 L','5 L'].map(s => (
                 <div key={s} className="rounded border px-3 py-2 text-center hover:border-mustard">{s}</div>
               ))}
