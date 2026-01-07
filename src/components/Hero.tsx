@@ -28,7 +28,7 @@ export default function Hero() {
 
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/products" className="rounded-lg bg-mustard text-ink px-5 py-3 font-semibold shadow hover:brightness-110">
-              View Products
+              Order Now
             </Link>
             <Link href="/process" className="rounded-lg border px-5 py-3 hover:border-mustard hover:text-mustard">
               See Our Process
@@ -53,7 +53,7 @@ export default function Hero() {
               <Image src="/Hero.PNG" alt="Pristeneo Mustard Oil Bottle" fill className="object-contain" />
             </div>
             <div className="-mt-6 grid grid-cols-3 gap-3 text-sm">
-              {['250 ml','500 ml','1 L'].map(s => (
+              {[' 1 L','5 L'].map(s => (
                 <div key={s} className="rounded border px-3 py-2 text-center hover:border-mustard">{s}</div>
               ))}
             </div>
